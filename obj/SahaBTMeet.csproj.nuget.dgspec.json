@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\sahabt\\SahaBTMeet\\SahaBTMeet.csproj": {}
+    "C:\\Users\\sahabt\\SahaBTMeet\\SahaBTMeet.csproj": {}
   },
   "projects": {
-    "c:\\Users\\sahabt\\SahaBTMeet\\SahaBTMeet.csproj": {
+    "C:\\Users\\sahabt\\SahaBTMeet\\SahaBTMeet.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\sahabt\\SahaBTMeet\\SahaBTMeet.csproj",
+        "projectUniqueName": "C:\\Users\\sahabt\\SahaBTMeet\\SahaBTMeet.csproj",
         "projectName": "SahaBTMeet",
-        "projectPath": "c:\\Users\\sahabt\\SahaBTMeet\\SahaBTMeet.csproj",
+        "projectPath": "C:\\Users\\sahabt\\SahaBTMeet\\SahaBTMeet.csproj",
         "packagesPath": "C:\\Users\\sahabt\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\sahabt\\SahaBTMeet\\obj\\",
+        "outputPath": "C:\\Users\\sahabt\\SahaBTMeet\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\sahabt\\AppData\\Roaming\\NuGet\\NuGet.Config"

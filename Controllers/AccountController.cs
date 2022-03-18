@@ -12,7 +12,7 @@ namespace SahaBTMeet.Controllers
         }
 
 
-       // [Authorize]
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AccountDTO>>> GetAllAccountOperation()
         {

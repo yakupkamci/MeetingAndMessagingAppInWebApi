@@ -4,6 +4,7 @@ namespace SahaBTMeet.Repositories.Interfaces
     public interface IAccountRepository
     {        
         Account GetAccountByEmailAndPasswordOperation(string Email, string Password);
+        JwtAccountDTO GetAccountById(int id); // jwt
         Task<List<Account>> GetAllAccountOperation();
         Task<Account> GetAccountByIdOperation(int Id);
         Task<Account> GetAccountByEmailOperation(string Email);

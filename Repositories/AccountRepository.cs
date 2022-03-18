@@ -46,14 +46,14 @@ namespace SahaBTMeet.Repositories
 
         public async Task<Account> GetAccountByIdOperation(int Id)
         {
-            return await _context.Accounts.Include(x=>x.AccountRoles).ThenInclude(x=>x.Role)
+            return  await _context.Accounts.Include(x=>x.AccountRoles).ThenInclude(x=>x.Role)
                                     .Include(x=>x.User).ThenInclude(x=>x.Departman)
-                                    .SingleOrDefaultAsync(x=>x.Id==Id);                          
+                                    .SingleOrDefaultAsync(x=>x.Id==Id);    
         }
 
         public async Task<List<Account>> GetAllAccountOperation()
         {
-            return await _context.Accounts.Include(x=>x.AccountRoles).ThenInclude(x=>x.Role)
+            return  await _context.Accounts.Include(x=>x.AccountRoles).ThenInclude(x=>x.Role)
                                     .Include(x=>x.User).ThenInclude(x=>x.Departman).ToListAsync(); 
         }
 
@@ -92,6 +92,12 @@ namespace SahaBTMeet.Repositories
             _context.Accounts.Update(Account);
             await _context.SaveChangesAsync();
             return Account;
+        }
+
+        public JwtAccountDTO GetAccountById(int id)
+        {
+            var coming = _context.Accounts.Include(x=>x.AccountRoles).ThenInclude(x=>x.Role).SingleOrDefault(q=>q.Id == id);
+            return new JwtAccountDTO(coming);
         }
     }
 }

@@ -68,11 +68,12 @@ namespace SahaBTMeet.Services
             }
         }
 
-        public async Task<Account> GetAccountById(int Id)
+        public JwtAccountDTO GetAccountById(int Id)
         {
             try
             {
-                return await _accountRepository.GetAccountByIdOperation(Id);
+                var coming = _accountRepository.GetAccountById(Id);
+                return coming;
             }
             catch (Exception ex)
             {
@@ -104,7 +105,7 @@ namespace SahaBTMeet.Services
             }
             catch (Exception ex)
             {
-                return BadRequest("Hay Aksi Bir Sorunla Karsilasildi !!! Baglantinizi Kontrol Ediniz...");
+                return BadRequest("Hay Aksi Bir Sorunla Karsilasildi !!! Ex=> "+ex.Message);
             }
 
         }

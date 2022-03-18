@@ -5,7 +5,7 @@ namespace SahaBTMeet.Services.Interfaces
     {
         AuthenticateResponse Authenticate(AuthenticateRequest Model);
         Task<ActionResult<IEnumerable<AccountDTO>>> GetAllAccountOperation();
-        Task<Account> GetAccountById(int Id); // Jwt icin
+        JwtAccountDTO GetAccountById(int Id); // Jwt
         Task<ActionResult<AccountDTO>> GetAccountByIdOperation(int Id);
         Task<ActionResult<AccountDTO>> GetAccountByEmailOperation(string Email);
         Task<ActionResult<AccountDTO>> RoleAssignmentToAccountOperation(string Email, List<Role> Role);

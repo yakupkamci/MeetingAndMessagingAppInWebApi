@@ -24,4 +24,5 @@ global using SahaBTMeet.Repositories;
 global using SahaBTMeet.Repositories.Interfaces;
 global using SahaBTMeet.Validator;
 global using SahaBTMeet.Helper.Extension;
+global using SahaBTMeet.Security.DTO;
 
