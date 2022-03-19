@@ -1,6 +1,7 @@
 
 namespace SahaBTMeet.Controllers
 {
+    [Authorize("Admin")]
     [ApiController]
     [Route("[controller]")]
     public class RoleController : ControllerBase
@@ -11,7 +12,7 @@ namespace SahaBTMeet.Controllers
         {
             this._roleService = roleService;
         }
-
+        
         [HttpGet]
         public async Task<ActionResult<IEnumerable<RoleDTO>>> GetAllRoleOperation()
         {

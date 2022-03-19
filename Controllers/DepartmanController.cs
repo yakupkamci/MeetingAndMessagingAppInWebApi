@@ -1,6 +1,7 @@
 
 namespace SahaBTMeet.Controllers
 {
+    [Authorize("Admin")]
     [ApiController]
     [Route("[controller]")]
     public class DepartmanController : ControllerBase

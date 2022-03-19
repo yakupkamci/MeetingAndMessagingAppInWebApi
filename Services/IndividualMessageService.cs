@@ -4,17 +4,19 @@ namespace SahaBTMeet.Services
     public class IndividualMessageService : ControllerBase, IIndividualMessageService
     {
         private readonly IIndividualMessageRepository _individualMessageRepository;
-
-        public IndividualMessageService(IIndividualMessageRepository individualMessageRepository)
+        private readonly IHttpContextAccessor _httpContext;
+        public IndividualMessageService(IHttpContextAccessor httpContext,IIndividualMessageRepository individualMessageRepository)
         {
             _individualMessageRepository = individualMessageRepository;
+            _httpContext = httpContext;
         }
 
-        public async Task<ActionResult> DeleteChatByAccountOperation(int id, int receiverId)
+        public async Task<ActionResult> DeleteChatByAccountOperation(int receiverId)
         {
             try
             {
-                Account InComingAccount = await GetAccountById(id);
+                JwtAccountDTO httpAccount =(JwtAccountDTO) _httpContext.HttpContext.Items["Account"];
+                Account InComingAccount = await GetAccountById(httpAccount.Id);
                 Account InComingReceiver = await GetAccountById(receiverId);
                 if(InComingAccount != null)
                 {
@@ -33,11 +35,12 @@ namespace SahaBTMeet.Services
             }
         }
 
-        public async Task<ActionResult> DeleteSendMessageToAccountOperation(int id, int MessageId)
+        public async Task<ActionResult> DeleteSendMessageToAccountOperation(int MessageId)
         {
             try
             {
-                Account InComingAccount = await GetAccountById(id);
+                JwtAccountDTO httpAccount =(JwtAccountDTO) _httpContext.HttpContext.Items["Account"];
+                Account InComingAccount = await GetAccountById(httpAccount.Id);
                 IndividualMessage InComingMessage = await _individualMessageRepository.GetIndividualMessageById(MessageId);
                 if(InComingAccount != null)
                 {
@@ -66,11 +69,12 @@ namespace SahaBTMeet.Services
             }            
         }
 
-        public async Task<ActionResult<IEnumerable<IndividualMessageDTO>>> GetAllMessageByAccountOperation(int id, int receiverId)
+        public async Task<ActionResult<IEnumerable<IndividualMessageDTO>>> GetAllMessageByAccountOperation(int receiverId)
         {
             try
             {
-                Account InComingAccount = await GetAccountById(id);
+                JwtAccountDTO httpAccount =(JwtAccountDTO) _httpContext.HttpContext.Items["Account"];
+                Account InComingAccount = await GetAccountById(httpAccount.Id);
                 Account InComingReceiver = await GetAccountById(receiverId);
                 if(InComingAccount != null)
                 {
@@ -88,11 +92,12 @@ namespace SahaBTMeet.Services
             }
         }
 
-        public async Task<ActionResult<IEnumerable<IndividualMessageDTO>>> MyInComingMessagesOperation(int id)
+        public async Task<ActionResult<IEnumerable<IndividualMessageDTO>>> MyInComingMessagesOperation()
         {
             try
             {
-                Account InComingAccount = await GetAccountById(id);
+                JwtAccountDTO httpAccount =(JwtAccountDTO) _httpContext.HttpContext.Items["Account"];
+                Account InComingAccount = await GetAccountById(httpAccount.Id);
                 if(InComingAccount != null)
                 {
                     return Ok((await _individualMessageRepository.MyInComingMessagesOperation(InComingAccount)).IndividualMessageToDTO());
@@ -105,11 +110,12 @@ namespace SahaBTMeet.Services
             }
         }
 
-        public async Task<ActionResult<IndividualMessageDTO>> SendMessageToAccountOperation(int id, IndividualMessage Message)
+        public async Task<ActionResult<IndividualMessageDTO>> SendMessageToAccountOperation(IndividualMessage Message)
         {
             try
             {
-                Account InComingAccount = await GetAccountById(id);
+                JwtAccountDTO httpAccount =(JwtAccountDTO) _httpContext.HttpContext.Items["Account"];
+                Account InComingAccount = await GetAccountById(httpAccount.Id);
                 if(InComingAccount != null)
                 {
                     return Ok((await _individualMessageRepository.SendMessageToAccountOperation(InComingAccount,Message)).IndividualMessageToDTO());

@@ -4,9 +4,11 @@ namespace SahaBTMeet.Services
     public class UserService : ControllerBase, IUserService
     {
         private readonly IUserRepository _userRepository;
-        public UserService(IUserRepository userRepository)
+        private readonly IHttpContextAccessor _httpContext;
+        public UserService(IHttpContextAccessor httpContext,IUserRepository userRepository)
         {
             _userRepository = userRepository;
+            _httpContext = httpContext;
         }
 
         public async Task<ActionResult<UserDTO>> CreateUserOperation(User user)
@@ -109,14 +111,15 @@ namespace SahaBTMeet.Services
             }
         }
 
-        public async Task<ActionResult<UserDTO>> UpdateUserOperation(int id, User user)
+        public async Task<ActionResult<UserDTO>> UpdateUserOperation(User user)
         {
             try
             {
-                User InComingUser = await _userRepository.GetUserById(id);
+                JwtAccountDTO httpAccount =(JwtAccountDTO) _httpContext.HttpContext.Items["Account"];
+                User InComingUser = await _userRepository.GetUserById(httpAccount.Id);
                 if(InComingUser != null)
                 {
-                    return Ok((await _userRepository.UpdateUserOperation(id,user)).UserToUserDTO());
+                    return Ok((await _userRepository.UpdateUserOperation(httpAccount.Id,user)).UserToUserDTO());
                 }
                 return BadRequest("Kayitli Kullanici Yoktur !!!");
             }catch(Exception ex){

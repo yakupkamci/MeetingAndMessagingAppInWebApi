@@ -2,6 +2,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Http;
 
 namespace SahaBTMeet.Services
 {
@@ -9,10 +10,12 @@ namespace SahaBTMeet.Services
     {
         private readonly IAccountRepository _accountRepository;
         private readonly AppSettings _appSettings;
-        public AccountService(IAccountRepository accountRepository, IOptions<AppSettings> appSettings)
+        private readonly IHttpContextAccessor _httpContext;
+        public AccountService(IHttpContextAccessor httpContext,IAccountRepository accountRepository, IOptions<AppSettings> appSettings)
         {
             _accountRepository = accountRepository;
             _appSettings = appSettings.Value;
+            _httpContext = httpContext;
         }
 
         public async Task<ActionResult<AccountDTO>> DeactivateAccountOperation(int Id)
@@ -110,11 +113,12 @@ namespace SahaBTMeet.Services
 
         }
 
-        public async Task<ActionResult<AccountDTO>> UpdateAccountOperation(int Id, Account Account)
-        {
+        public async Task<ActionResult<AccountDTO>> UpdateAccountOperation(Account Account)
+        {            
             try
             {
-                Account InComingAccount = await _accountRepository.GetAccountByIdOperation(Id);
+                JwtAccountDTO httpAccount =(JwtAccountDTO) _httpContext.HttpContext.Items["Account"];
+                Account InComingAccount = await _accountRepository.GetAccountByIdOperation(httpAccount.Id);
                 if (InComingAccount != null)
                 {
                     if (InComingAccount.Email != Account.Email)

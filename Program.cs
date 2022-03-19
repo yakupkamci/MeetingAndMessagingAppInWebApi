@@ -7,6 +7,7 @@ builder.Services.AddControllers().AddFluentValidation(opt=>{
     opt.RegisterValidatorsFromAssemblyContaining<Program>();
 }).AddJsonOptions(x=>x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);;
 
+builder.Services.AddHttpContextAccessor();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

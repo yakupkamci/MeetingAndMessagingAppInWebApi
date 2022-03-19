@@ -1,6 +1,7 @@
 
 namespace SahaBTMeet.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class IndividualMessageController : ControllerBase
@@ -11,34 +12,34 @@ namespace SahaBTMeet.Controllers
             _individualMessageRepository = individualMessageRepository;
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<IEnumerable<IndividualMessageDTO>>> MyInComingIndividualMessageOperation(int id)
+        [HttpGet("mycoming")]
+        public async Task<ActionResult<IEnumerable<IndividualMessageDTO>>> MyInComingIndividualMessageOperation()
         {
-            return await _individualMessageRepository.MyInComingMessagesOperation(id);
+            return await _individualMessageRepository.MyInComingMessagesOperation();
         }
 
-        [HttpGet("id")]
-        public async Task<ActionResult<IEnumerable<IndividualMessageDTO>>> GetAllMessageByAccountOperation(int id, int receiverid)
+        [HttpGet("receiverid")]
+        public async Task<ActionResult<IEnumerable<IndividualMessageDTO>>> GetAllMessageByAccountOperation(int receiverid)
         {
-            return await _individualMessageRepository.GetAllMessageByAccountOperation(id,receiverid);
+            return await _individualMessageRepository.GetAllMessageByAccountOperation(receiverid);
         }
 
-        [HttpPost("{id}")]
-        public async Task<ActionResult<IndividualMessageDTO>> SendIndividualMessageToAccount(int id, IndividualMessage message)
+        [HttpPost]
+        public async Task<ActionResult<IndividualMessageDTO>> SendIndividualMessageToAccount(IndividualMessage message)
         {
-            return await _individualMessageRepository.SendMessageToAccountOperation(id,message);
+            return await _individualMessageRepository.SendMessageToAccountOperation(message);
         }
 
         [HttpDelete("deletechat")]
-        public async Task<ActionResult> DeleteChatByAccountOperation(int id, int receiverid)
+        public async Task<ActionResult> DeleteChatByAccountOperation(int receiverid)
         {
-            return await _individualMessageRepository.DeleteChatByAccountOperation(id,receiverid);
+            return await _individualMessageRepository.DeleteChatByAccountOperation(receiverid);
         }
 
         [HttpDelete("deletemessage")]
-        public async Task<ActionResult> DeleteSendMessageToAccountOperation(int id, int messageid)
+        public async Task<ActionResult> DeleteSendMessageToAccountOperation(int messageid)
         {
-            return await _individualMessageRepository.DeleteSendMessageToAccountOperation(id,messageid);
+            return await _individualMessageRepository.DeleteSendMessageToAccountOperation(messageid);
         }
 
         

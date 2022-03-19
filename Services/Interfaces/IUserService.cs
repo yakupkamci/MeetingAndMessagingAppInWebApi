@@ -10,6 +10,6 @@ namespace SahaBTMeet.Services.Interfaces
         Task<ActionResult<UserDTO>> GetUserByAccountId(int id);
         Task<ActionResult<UserDTO>> GetUserByAccountEmail(string email);
         Task<ActionResult<UserDTO>> CreateUserOperation(User user);
-        Task<ActionResult<UserDTO>> UpdateUserOperation(int id,User user);
+        Task<ActionResult<UserDTO>> UpdateUserOperation(User user);
     }
 }

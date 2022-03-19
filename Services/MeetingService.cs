@@ -4,9 +4,11 @@ namespace SahaBTMeet.Services
     public class MeetingService : ControllerBase, IMeetingService
     {
         private readonly IMeetingRepository _meetingRepository;
-        public MeetingService(IMeetingRepository meetingRepository)
+        private readonly IHttpContextAccessor _httpContext;
+        public MeetingService(IHttpContextAccessor httpContext,IMeetingRepository meetingRepository)
         {
             _meetingRepository = meetingRepository;
+            _httpContext = httpContext;
         }
 
         public async Task<ActionResult<MeetingDTO>> AddParticipantToMeetingLaterOperation(int Id, List<Account> Accounts)
@@ -45,16 +47,17 @@ namespace SahaBTMeet.Services
 
         }
 
-        public async Task<ActionResult<MeetingDTO>> CreateMeetingOperation(int Id, MeetingDIO Meeting)
+        public async Task<ActionResult<MeetingDTO>> CreateMeetingOperation(MeetingDIO Meeting)
         {
             try
             {
-                Account InComingAccount = await _meetingRepository.GetAccountById(Id);
+                JwtAccountDTO httpAccount =(JwtAccountDTO) _httpContext.HttpContext.Items["Account"];
+                Account InComingAccount = await _meetingRepository.GetAccountById(httpAccount.Id);
                 if (InComingAccount != null)
                 {
                     if (Meeting.OrganizerId == null)
                     {
-                        Meeting.OrganizerId = Id;
+                        Meeting.OrganizerId = httpAccount.Id;
                     }
                     return Ok((await _meetingRepository.CreateMeetingOperation(InComingAccount, Meeting)).MeetingToMeetingDTO());
                 }
@@ -95,11 +98,12 @@ namespace SahaBTMeet.Services
             }
         }
 
-        public async Task<ActionResult<IEnumerable<MeetingDTO>>> GetMeetingByOrganizer(int Id)
+        public async Task<ActionResult<IEnumerable<MeetingDTO>>> GetMeetingByOrganizer()
         {
             try
             {
-                Account InComingAccount = await _meetingRepository.GetAccountById(Id);
+                JwtAccountDTO httpAccount =(JwtAccountDTO) _httpContext.HttpContext.Items["Account"];
+                Account InComingAccount = await _meetingRepository.GetAccountById(httpAccount.Id);
                 if (InComingAccount != null)
                 {
                     return Ok((await _meetingRepository.GetMeetingByOrganizer(InComingAccount)).MeetingToMeetingDTO());
@@ -112,11 +116,12 @@ namespace SahaBTMeet.Services
             }
         }
 
-        public async Task<ActionResult<IEnumerable<MeetingDTO>>> MyScheduledMeetingByAccount(int Id)
+        public async Task<ActionResult<IEnumerable<MeetingDTO>>> MyScheduledMeetingByAccount()
         {
             try
             {
-                Account InComingAccount = await _meetingRepository.GetAccountById(Id);
+                JwtAccountDTO httpAccount =(JwtAccountDTO) _httpContext.HttpContext.Items["Account"];
+                Account InComingAccount = await _meetingRepository.GetAccountById(httpAccount.Id);
                 if (InComingAccount != null)
                 {
                     return Ok((await _meetingRepository.MyScheduledMeetingByAccount(InComingAccount)).MeetingToMeetingDTO());
